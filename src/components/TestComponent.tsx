@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const TestComponent = () => {
-  return <h2>Hello from React!</h2>;
+  return null;
 };
 
 export default TestComponent;
