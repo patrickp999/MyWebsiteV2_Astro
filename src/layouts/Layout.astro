@@ -1,22 +1,165 @@
+---
+import siteConfig from '../config/seo.ts';
+
+const {
+  title = siteConfig.title,
+  description = siteConfig.description,
+  siteUrl = siteConfig.siteUrl,
+  siteImage = `${siteConfig.siteUrl}${siteConfig.siteImage}`,
+  siteKeywords = siteConfig.siteKeywords,
+  googleVerification = siteConfig.googleVerification,
+  siteLanguage = siteConfig.siteLanguage,
+  location = siteConfig.location,
+} = Astro.props;
+
+const structuredData = JSON.stringify([
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Patrick Puga',
+    url: siteUrl,
+    image: siteImage,
+    jobTitle: 'Software Engineer',
+    description: description,
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: location.city,
+      addressRegion: location.state,
+      addressCountry: location.country,
+    },
+    knowsAbout: [
+      'Software Engineering',
+      'JavaScript',
+      'TypeScript',
+      'React',
+      'Astro',
+      'Node.js',
+      'Full-Stack Development',
+      'Enterprise Applications',
+      'UI/UX',
+      'Performance Optimization',
+    ],
+    sameAs: [
+      'https://github.com/ppuga999',
+      'https://www.linkedin.com/in/ppuga999',
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Patrick Puga - Software Engineer',
+    url: siteUrl,
+    description: description,
+    about: {
+      '@type': 'Person',
+      name: 'Patrick Puga',
+      jobTitle: 'Software Engineer',
+      url: siteUrl,
+      sameAs: [
+        'https://github.com/ppuga999',
+        'https://www.linkedin.com/in/ppuga999',
+      ],
+    },
+    isPartOf: {
+      '@type': 'WebSite',
+      name: 'Patrick Puga Portfolio',
+      url: siteUrl,
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    mainEntity: {
+      '@type': 'Person',
+      name: 'Patrick Puga',
+      url: siteUrl,
+      image: siteImage,
+      sameAs: [
+        'https://github.com/ppuga999',
+        'https://www.linkedin.com/in/ppuga999',
+      ],
+      jobTitle: 'Software Engineer',
+      description: description,
+    },
+  },
+]);
+---
+
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
-	</head>
-	<body>
-		<slot />
-	</body>
+<html lang={siteLanguage}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- ✅ Favicon -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/images/favicon-16x16.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/images/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- ✅ Global CSS Styles -->
+    <link rel="stylesheet" href="/styles/global.css" />
+
+    <!-- ✅ SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content={siteKeywords} />
+    <meta name="author" content="Patrick Puga" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- ✅ Google Verification -->
+    <meta name="google-site-verification" content={googleVerification} />
+
+    <!-- ✅ Open Graph (OG) Meta Tags (For Social Sharing) -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={siteUrl} />
+    <meta property="og:site_name" content={title} />
+    <meta property="og:image" content={siteImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:locale" content={siteLanguage} />
+
+    <!-- ✅ Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={siteImage} />
+    <meta name="twitter:site" content="@your_twitter_handle" />
+    <!-- Replace with actual handle -->
+
+    <!-- ✅ Canonical Link (Prevents Duplicate Content Issues) -->
+    <link rel="canonical" href={siteUrl} />
+
+    <!-- ✅ Structured Data (JSON-LD for SEO) -->
+    <script type="application/ld+json" set:html={structuredData} />
+  </head>
+  <body>
+    <slot />
+  </body>
 </html>
 
 <style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 </style>
